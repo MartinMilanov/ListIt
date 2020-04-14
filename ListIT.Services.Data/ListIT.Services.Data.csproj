@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ListIT.Data.Common\ListIT.Data.Common.csproj" />
+    <ProjectReference Include="..\ListIT.Data.Models\ListIT.Data.Models.csproj" />
+    <ProjectReference Include="..\ListIT.Services.Mapping\ListIT.Services.Mapping.csproj" />
+  </ItemGroup>
+
+</Project>

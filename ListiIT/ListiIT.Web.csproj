@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-ListiIT-4B760E4C-2D7D-4932-984B-47F4D1AA2CFE</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ListIT.Data.Models\ListIT.Data.Models.csproj" />
+    <ProjectReference Include="..\ListIT.Data\ListIT.Data.csproj" />
+    <ProjectReference Include="..\ListIT.Services.Data\ListIT.Services.Data.csproj" />
+    <ProjectReference Include="..\ListIT.Services.Mapping\ListIT.Services.Mapping.csproj" />
+    <ProjectReference Include="..\ListIT.Web.ViewModels\ListIT.Web.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>
