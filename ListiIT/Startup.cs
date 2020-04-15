@@ -17,6 +17,7 @@ using ListIT.Services.Mapping;
 using ListIT.Web.ViewModels.Error;
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
+using ListIT.Services.Data.PlaceServices;
 
 namespace ListiIT
 {
@@ -46,8 +47,10 @@ namespace ListiIT
                     options.MinimumSameSitePolicy = SameSiteMode.None;
                 });
 
-            services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddControllersWithViews();
+
+            services.AddTransient<IPlaceService, PlaceService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,10 +78,10 @@ namespace ListiIT
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
             });
         }
     }

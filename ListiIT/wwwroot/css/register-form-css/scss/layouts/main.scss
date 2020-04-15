@@ -83,7 +83,21 @@ input {
         @include input-placeholder($black-color);
     }
 }
+textarea {
+    width: 100%;
+    display: block;
+    border: none;
+    border-bottom: 1px solid $grey-light;
+    padding: 6px 30px;
+    font-family: Poppins;
+    box-sizing: border-box;
+    @include input-placeholder($grey-light);
 
+    &:focus {
+        border-bottom: 1px solid $black-color;
+        @include input-placeholder($black-color);
+    }
+}
 input[type=checkbox]:not(old){
   width     : 2em;
   margin    : 0;

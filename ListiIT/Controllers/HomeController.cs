@@ -23,6 +23,10 @@ namespace ListiIT.Controllers
             return View();
         }
 
+        public IActionResult TestRazorPage()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

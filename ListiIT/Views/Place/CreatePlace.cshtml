@@ -1,0 +1,82 @@
+﻿@model ListIT.Web.ViewModels.PlaceModels.PlaceInputModel
+
+@{
+
+    ViewData["Title"] = "CreatePlace";
+}
+
+<section class="signup">
+    <div class="container">
+        <div class="signup-content">
+
+            <div class="signup-form">
+                <h2 class="form-title">Create your place post !</h2>
+                <form asp-action="CreatePlace" method="post" class="register-form" id="register-form">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <span style="font-size:medium">😃 Pick a catchy name !</span>
+                        <input asp-for="Name" type="text" id="pass" class="form-control" placeholder="Name" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <span style="font-size:medium">📄 Add a nice description</span>
+                        <textarea asp-for="Description" type="text" placeholder="Description" class="form-control"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <span style="font-size:medium">🏙️ What is your city ?</span>
+                        <input asp-for="City" type="text" id="pass" class="form-control" placeholder="Plovdiv" />
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <span style="font-size:medium">🏘️ What is your location ?</span>
+                        <input asp-for="Address" type="text" id="pass" class="form-control" placeholder="Dove str. 1822" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <span style="font-size:medium">🖱️ Enter your website </span>
+                        <input asp-for="WebsiteName" type="text" id="pass" class="form-control" placeholder="www.snacks.com" />
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <span style="font-size:medium">☎️ Enter your phone number </span>
+                        <input asp-for="TelephoneNumber" type="text" id="pass" class="form-control" placeholder="0897800754" />
+                        <span asp-validation-for="TelephoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <span style="font-size:medium">🤔 Whats your price range ? </span>
+                        <select asp-for="PriceRange" class="form-control">
+                            <option value="1">💲 Low</option>
+                            <option value="2">💲💲 Medium</option>
+                            <option value="3">💲💲💲 High</option>
+                        </select>
+                        <span asp-validation-for="PriceRange" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <span style="font-size:medium">📖 Opens at</span>
+                        <input asp-for="OpensAt" type="time" id="pass" class="form-control" value="12:40" />
+                        <span asp-validation-for="OpensAt" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <span style="font-size:medium">📕 Closes at</span>
+                        <input asp-for="ClosesAt" type="time" id="pass" class="form-control" value="12:40" />
+                        <span asp-validation-for="ClosesAt" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group form-button">
+                        <button type="submit" id="signup" class="form-submit">Create post</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
