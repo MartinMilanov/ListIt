@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
+using ListIT.Services.Data.FileService;
+using ListIT.Data.Common.Enums;
 
 namespace ListiIT.Web.Areas.Identity.Pages.Account
 {
@@ -24,17 +27,20 @@ namespace ListiIT.Web.Areas.Identity.Pages.Account
         private readonly UserManager<User> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IFileService fileService;
 
         public RegisterModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IFileService fileService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            this.fileService = fileService;
         }
 
         [BindProperty]
@@ -43,7 +49,8 @@ namespace ListiIT.Web.Areas.Identity.Pages.Account
         public string ReturnUrl { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
-
+        [BindProperty]
+        public IFormFile File { get; set; }
         public class InputModel
         {
             [Required]
@@ -61,6 +68,7 @@ namespace ListiIT.Web.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -75,7 +83,9 @@ namespace ListiIT.Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+                var imageUrl = await this.fileService.UploadFile(File, FileType.UserFile);
                 var user = new User { UserName = Input.Email, Email = Input.Email };
+                user.ImageUrl = imageUrl;
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

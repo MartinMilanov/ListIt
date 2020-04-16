@@ -3,14 +3,27 @@
 @{
     ViewData["Title"] = "Register";
 }
+<html>
+    <head>
+        <link rel="stylesheet" href="~/css/register-form-css">
+        <link rel="stylesheet" href="~/css/register-form-css/css/style.css">
+    </head>
+    <body>
+    
 <div class="main">
     <section class="signup">
         <div class="container">
             <div class="signup-content">
                 <div class="signup-form">
                     <h2 class="form-title">Sign up</h2>
-                    <form  asp-route-returnUrl="@Model.ReturnUrl" method="post" class="register-form" id="register-form">
+                    <form asp-route-returnUrl="@Model.ReturnUrl" enctype="multipart/form-data" method="post" class="register-form" id="register-form">
                         <div asp-validation-summary="All" class="text-danger"></div>
+
+                        <div class="form-group">
+                            <label asp-for="File" for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input asp-for="File" type="file" id="name" placeholder="Your E-Mail" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
                         <div class="form-group">
                             <label asp-for="Input.Email" for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
                             <input asp-for="Input.Email" type="email" name="email" id="name" placeholder="Your E-Mail" />
@@ -27,9 +40,9 @@
                             <span asp-validation-for="Input.Password" class="text-danger"></span>
                         </div>
                         @*<div class="form-group">
-                            <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
-                            <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
-                        </div>*@
+            <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
+            <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
+        </div>*@
                         <div class="form-group form-button">
                             <button type="submit" id="signup" class="form-submit">Register</button>
                         </div>
@@ -43,6 +56,8 @@
         </div>
     </section>
 </div>
+</body>
+</html>
     @section Scripts {
         <partial name="_ValidationScriptsPartial" />
     }

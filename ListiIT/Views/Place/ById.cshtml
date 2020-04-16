@@ -1,0 +1,266 @@
+﻿@model ListIT.Web.ViewModels.PlaceModels.PlaceDetailViewModel
+
+@{
+    ViewData["Title"] = "ById";
+}
+<body>
+
+    <div>
+        <!-- Swiper -->
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                @foreach (var imageUrl in Model.ImageUrls.Split(" // ", StringSplitOptions.RemoveEmptyEntries).ToArray())
+                {
+
+                    <div style="overflow:hidden;" class="swiper-slide">
+                        <img style="width:100%;height: 300px;overflow: hidden;" src="@imageUrl" class="img-fluid">
+
+                    </div>
+                }
+
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination swiper-pagination-white"></div>
+            <!-- Add Arrows -->
+            <div class="swiper-button-next swiper-button-white"></div>
+            <div class="swiper-button-prev swiper-button-white"></div>
+        </div>
+    </div>
+    <!--//END BOOKING -->
+    <!--============================= RESERVE A SEAT =============================-->
+    <section class="reserve-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>@Model.Name</h5>
+                    @if (Model.PriceRange == ListIT.Data.Common.Enums.PriceRange.Low)
+                    {
+                        <p><span>$</span>$$</p>
+                    }
+                    @if (Model.PriceRange == ListIT.Data.Common.Enums.PriceRange.Medium)
+                    {
+                        <p><span>$$</span>$</p>
+                    }
+                    @if (Model.PriceRange == ListIT.Data.Common.Enums.PriceRange.High)
+                    {
+                        <p><span>$$$</span></p>
+                    }
+                    <p class="reserve-description">Innovative cooking, paired with fine wines in a modern setting.</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="reserve-seat-block">
+                        <div class="reserve-rating">
+                            <span>@Model.Rating</span>
+                        </div>
+                        <div class="review-btn">
+                            <a href="#" class="btn btn-outline-danger">WRITE A REVIEW</a>
+                            <span>34 reviews</span>
+                        </div>
+                        <div class="reserve-btn">
+                            <div class="featured-btn-wrap">
+                                <a href="#" class="btn btn-danger">RESERVE A SEAT</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--//END RESERVE A SEAT -->
+    <!--============================= BOOKING DETAILS =============================-->
+    <section class="light-bg booking-details_wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 responsive-wrap">
+                    <div class="booking-checkbox_wrap">
+                        <div class="booking-checkbox">
+                            <p>
+                                @Model.Description
+                            </p>
+                            <hr>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="custom-checkbox">
+                                    <span class="ti-check-box"></span>
+                                    <span class="custom-control-description">Bike Parking</span>
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="custom-checkbox">
+                                    <span class="ti-check-box"></span>
+                                    <span class="custom-control-description">Wireless Internet  </span>
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="custom-checkbox">
+                                    <span class="ti-check-box"></span>
+                                    <span class="custom-control-description">Smoking Allowed  </span>
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="custom-checkbox">
+                                    <span class="ti-check-box"></span>
+                                    <span class="custom-control-description">Street Parking</span>
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="custom-checkbox">
+                                    <span class="ti-check-box"></span>
+                                    <span class="custom-control-description">Special</span>
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="custom-checkbox">
+                                    <span class="ti-check-box"></span>
+                                    <span class="custom-control-description">Accepts Credit cards</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="booking-checkbox_wrap mt-4">
+                        @if (Model.Reviews.Count <= 0)
+                        {
+
+                            <div class="alert alert-info"> There are still no reviews for this place</div>
+                        }
+                        else
+                        {
+                            <h5>34 Reviews</h5>
+
+
+                            <div class="customer-review_wrap">
+                                <div class="customer-img">
+                                    <img src="images/customer-img1.jpg" class="img-fluid" alt="#">
+                                    <p>Amanda G</p>
+                                    <span>35 Reviews</span>
+                                </div>
+                                <div class="customer-content-wrap">
+                                    <div class="customer-content">
+                                        <div class="customer-review">
+                                            <h6>Best noodles in the Newyork city</h6>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span class="round-icon-blank"></span>
+                                            <p>Reviewed 2 days ago</p>
+                                        </div>
+                                        <div class="customer-rating">8.0</div>
+                                    </div>
+                                    <p class="customer-text">
+                                        I love the noodles here but it is so rare that I get to come here. Tasty Hand-Pulled Noodles is the best type of whole in the wall restaurant. The staff are really nice, and you should be seated quickly. I usually get the
+                                        hand pulled noodles in a soup. House Special #1 is amazing and the lamb noodles are also great. If you want your noodles a little chewier, get the knife cut noodles, which are also amazing. Their dumplings are great
+                                        dipped in their chili sauce.
+                                    </p>
+                                    <p class="customer-text">
+                                        I love how you can see into the kitchen and watch them make the noodles and you can definitely tell that this is a family run establishment. The prices are are great with one dish maybe being $9. You just have to remember
+                                        to bring cash.
+                                    </p>
+                                    <ul>
+                                        <li><img src="images/review-img1.jpg" class="img-fluid" alt="#"></li>
+                                        <li><img src="images/review-img2.jpg" class="img-fluid" alt="#"></li>
+                                        <li><img src="images/review-img3.jpg" class="img-fluid" alt="#"></li>
+                                    </ul>
+                                    <span>28 people marked this review as helpful</span>
+                                    <a href="#"><span class="icon-like"></span>Helpful</a>
+                                </div>
+                            </div>
+
+                        }
+                        <hr>
+                    </div>
+                </div>
+                <div class="col-md-4 responsive-wrap">
+                    <div class="contact-info">
+                        <div class="address">
+                            <span class="icon-location-pin"></span>
+                            <p>
+                                <span>@Model.City</span>
+                                <br />
+                                <span>@Model.Address</span>
+                                <br />
+                            </p>
+                        </div>
+                        <div class="address">
+                            <span class="icon-screen-smartphone"></span>
+                            <p> +@Model.TelephoneNumber</p>
+                        </div>
+                        <div class="address">
+                            <span class="icon-link"></span>
+                            @if (Model.WebsiteName != null)
+                            {
+
+                                <p>@Model.WebsiteName</p>
+                            }
+                        </div>
+                        <div class="address">
+                            <span class="icon-clock"></span>
+                            <p>
+                                Mon - Sun @Model.OpensAt am - @Model.ClosesAt pm <br>
+                            </p>
+                        </div>
+                        <a href="#" class="btn btn-outline-danger btn-contact">SEND A MESSAGE</a>
+                    </div>
+                    <div class="follow">
+                        <div class="follow-img">
+                            <img style="width:100px;height:100px;overflow:hidden" src="@Model.Creator.ImageUrl" class="img-fluid" alt="#">
+                            <h6>@Model.Creator.UserName</h6>
+                        </div>
+                        <ul class="social-counts">
+                            <li>
+                                <h6>@Model.Creator.Places.Count</h6>
+                                <span>Listings</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <script src="~/js/jquery-3.2.1.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <!-- Magnific popup JS -->
+    <script src="~/js/jquery.magnific-popup.js"></script>
+    <!-- Swipper Slider JS -->
+    <script src="~/js/swiper.min.js"></script>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 3,
+            slidesPerGroup: 3,
+            loop: true,
+            loopFillGroupWithBlank: false,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    </script>
+    @*<script>
+            if ($('.image-link').length) {
+                $('.image-link').magnificPopup({
+                    type: 'image',
+                    gallery: {
+                        enabled: true
+                    }
+                });
+            }
+            if ($('.image-link2').length) {
+                $('.image-link2').magnificPopup({
+                    type: 'image',
+                    gallery: {
+                        enabled: true
+                    }
+                });
+            }
+        </script>*@
+</body>

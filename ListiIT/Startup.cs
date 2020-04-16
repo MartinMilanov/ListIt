@@ -18,6 +18,7 @@ using ListIT.Web.ViewModels.Error;
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using ListIT.Services.Data.PlaceServices;
+using ListIT.Services.Data.FileService;
 
 namespace ListiIT
 {
@@ -51,6 +52,7 @@ namespace ListiIT
             services.AddControllersWithViews();
 
             services.AddTransient<IPlaceService, PlaceService>();
+            services.AddScoped<IFileService, FileService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

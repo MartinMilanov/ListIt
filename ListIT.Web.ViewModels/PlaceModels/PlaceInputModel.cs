@@ -1,6 +1,7 @@
 ﻿using ListIT.Data.Common.Enums;
 using ListIT.Data.Models;
 using ListIT.Services.Mapping;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,6 +11,8 @@ namespace ListIT.Web.ViewModels.PlaceModels
 {
     public class PlaceInputModel:IMapTo<Place>,IMapFrom<Place>
     {
+        [Required]
+        public IFormFile[] Files { get; set; }
         [Required]
         [MaxLength(100,ErrorMessage="Name cannot be more than 100 characters")]
         public string Name { get; set; }
@@ -36,5 +39,7 @@ namespace ListIT.Web.ViewModels.PlaceModels
         public PriceRange PriceRange { get; set; }
 
         public string CreatorId { get; set; }
+
+        public string ImageUrls { get; set; }
     }
 }

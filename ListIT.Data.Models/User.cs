@@ -13,6 +13,7 @@ namespace ListIT.Data.Models
             this.Places = new HashSet<Place>();
             this.Reviews = new HashSet<Review>();
         }
+        public string ImageUrl { get; set; }
         public ICollection<Place> Places { get; set; }
         public ICollection<Review> Reviews { get; set; }
     }

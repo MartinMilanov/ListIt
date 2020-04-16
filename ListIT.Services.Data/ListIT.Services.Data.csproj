@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ListIT.Data.Common\ListIT.Data.Common.csproj" />
     <ProjectReference Include="..\ListIT.Data.Models\ListIT.Data.Models.csproj" />
     <ProjectReference Include="..\ListIT.Data\ListIT.Data.csproj" />

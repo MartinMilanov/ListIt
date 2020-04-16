@@ -1,19 +1,15 @@
 ﻿using ListIT.Data.Common.Enums;
+using ListIT.Data.Models;
+using ListIT.Services.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ListIT.Data.Models
+namespace ListIT.Web.ViewModels.PlaceModels
 {
-    public class Place
+    public class PlaceDetailViewModel:IMapFrom<Place>
     {
-        public Place()
-        {
-            this.Id = Guid.NewGuid().ToString();
-            this.Reviews = new HashSet<Review>();
-        }
-        public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Address { get; set; }
@@ -23,8 +19,8 @@ namespace ListIT.Data.Models
         public string OpensAt { get; set; }
         public string ClosesAt { get; set; }
         public string ImageUrls { get; set; }
-        public double Rating => Reviews.Count == 0 ? 0 : Reviews.Average(x => x.Rating);
         public PriceRange PriceRange { get; set; }
+        public double Rating => Reviews.Count == 0 ? 0 : Reviews.Average(x => x.Rating);
         public string CreatorId { get; set; }
         public User Creator { get; set; }
 

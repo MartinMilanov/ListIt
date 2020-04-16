@@ -9,5 +9,6 @@ namespace ListIT.Services.Data.PlaceServices
     public interface IPlaceService
     {
         public Task<string> AddPlace(PlaceInputModel input);
+        public Task<PlaceDetailViewModel> GetById(string id);
     }
 }
