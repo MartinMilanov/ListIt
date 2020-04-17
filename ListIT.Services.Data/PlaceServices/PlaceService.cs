@@ -21,6 +21,15 @@ namespace ListIT.Services.Data.PlaceServices
         public async Task<string> AddPlace(PlaceInputModel input)
         {
             var place = input.To<Place>();
+            foreach (var perkName in input.Perks)
+            {
+                var perk = await context.Perks.FirstOrDefaultAsync(x => x.Name == perkName);
+                context.PlacePerks.Add(new PlacePerk()
+                {
+                    Place = place,
+                    Perk = perk
+                });
+            }
             await this.context.AddAsync(place);
             await this.context.SaveChangesAsync();
 
@@ -35,6 +44,7 @@ namespace ListIT.Services.Data.PlaceServices
                 .Include(x=>x.Reviews)
                 .ThenInclude(x=>x.Creator)
                 .FirstOrDefaultAsync(x=>x.Id == id);
+
 
             return place.To<PlaceDetailViewModel>();
         }

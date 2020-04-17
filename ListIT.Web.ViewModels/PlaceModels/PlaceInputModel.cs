@@ -20,6 +20,8 @@ namespace ListIT.Web.ViewModels.PlaceModels
         [MaxLength(300, ErrorMessage = "Description cannot be more than 300 characters")]
         public string Description { get; set; }
         [Required]
+        public Category Category { get; set; }
+        [Required]
         [MaxLength(100, ErrorMessage = "City name cannot be more than 100 characters")]
         public string City { get; set; }
         [Required]
@@ -37,6 +39,8 @@ namespace ListIT.Web.ViewModels.PlaceModels
         public string ClosesAt { get; set; }
         [Required]
         public PriceRange PriceRange { get; set; }
+        public List<string> Perks { get; set; }
+
 
         public string CreatorId { get; set; }
 

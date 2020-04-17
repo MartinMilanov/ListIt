@@ -12,6 +12,7 @@ namespace ListIT.Data.Models
         {
             this.Id = Guid.NewGuid().ToString();
             this.Reviews = new HashSet<Review>();
+            this.PlacePerks = new HashSet<PlacePerk>();
         }
         public string Id { get; set; }
         public string Name { get; set; }
@@ -25,9 +26,11 @@ namespace ListIT.Data.Models
         public string ImageUrls { get; set; }
         public double Rating => Reviews.Count == 0 ? 0 : Reviews.Average(x => x.Rating);
         public PriceRange PriceRange { get; set; }
+        public Category Category { get; set; }
         public string CreatorId { get; set; }
         public User Creator { get; set; }
 
+        public ICollection<PlacePerk> PlacePerks { get; set; }
         public ICollection<Review> Reviews { get; set; }
     }
 }

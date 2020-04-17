@@ -484,6 +484,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\css\create-place-css\" />
     <Folder Include="wwwroot\images\place-images\" />
     <Folder Include="wwwroot\images\user-images\" />
   </ItemGroup>

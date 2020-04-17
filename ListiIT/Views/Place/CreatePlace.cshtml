@@ -4,10 +4,10 @@
 
     ViewData["Title"] = "CreatePlace";
 }
-    <head>
-        <link rel="stylesheet" href="~/css/register-form-css">
-        <link rel="stylesheet" href="~/css/register-form-css/css/style.css">
-    </head>
+<head>
+    <link rel="stylesheet" href="~/css/register-form-css/css/style.css">
+
+</head>
 <section class="signup">
     <div class="container">
         <div class="signup-content">
@@ -19,7 +19,7 @@
                     <div class="form-group">
                         <span style="font-size:medium">Add some photos !</span>
                         <input asp-for="Files" multiple type="file" id="pass" class="form-control" placeholder="Name" />
-                        @*<span asp-validation-for="Files" class="text-danger"></span>*@
+                        <span asp-validation-for="Files" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <span style="font-size:medium">😃 Pick a catchy name !</span>
@@ -30,6 +30,12 @@
                         <span style="font-size:medium">📄 Add a nice description</span>
                         <textarea asp-for="Description" type="text" placeholder="Description" class="form-control"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <span style="font-size:medium">🍔 Choose your category</span>
+                        <select asp-for="Category" asp-items="Html.GetEnumSelectList<Category>()" class="js-states category-limit form-control" multiple="multiple">
+                        </select>
+                        <span asp-validation-for="Category" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <span style="font-size:medium">🏙️ What is your city ?</span>
@@ -72,6 +78,20 @@
                         <input asp-for="ClosesAt" type="time" id="pass" class="form-control" value="12:40" />
                         <span asp-validation-for="ClosesAt" class="text-danger"></span>
                     </div>
+                    <div class="form-group">
+                        <span style="font-size:medium">💎 Do you have some of these ?</span>
+
+                        <select asp-for="Perks" class="js-example-basic-multiple-limit js-states form-control" multiple="multiple">
+                            <option value="BikeParking">Bike Parking</option>
+                            <option value="WirelessInternet">Wireless Internet</option>
+                            <option value="SmokingAllowed">Smoking Allowed</option>
+                            <option value="StreetParking">Street Parking </option>
+                            <option value="SpecialNeeds">Special Needs</option>
+                            <option value="AcceptsCreditCards">Accepts Credit Cards</option>
+                            <option value="PetsFriendly">Pets Friendly</option>
+                        </select>
+                    </div>
+
 
                     <div class="form-group form-button">
                         <button type="submit" id="signup" class="form-submit">Create post</button>
@@ -85,5 +105,15 @@
 
 
 @section Scripts {
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(".js-example-basic-multiple-limit").select2({
+            maximumSelectionLength: 8
+        });
+
+         $(".category-limit").select2({
+            maximumSelectionLength: 1
+        });
+    </script>
 }
