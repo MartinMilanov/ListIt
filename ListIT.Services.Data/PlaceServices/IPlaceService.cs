@@ -1,4 +1,5 @@
-﻿using ListIT.Web.ViewModels.PlaceModels;
+﻿using ListIT.Data.Models;
+using ListIT.Web.ViewModels.PlaceModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,5 +11,6 @@ namespace ListIT.Services.Data.PlaceServices
     {
         public Task<string> AddPlace(PlaceInputModel input);
         public Task<PlaceDetailViewModel> GetById(string id);
+        public Task<ICollection<PlaceListModel>> GetPlaces(PlaceFilterInputModel input);
     }
 }

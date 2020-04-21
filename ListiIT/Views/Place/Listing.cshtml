@@ -1,0 +1,212 @@
+﻿@model ICollection<ListIT.Web.ViewModels.PlaceModels.PlaceListModel>;
+
+@{
+
+    ViewData["Title"] = "Listing";
+}
+
+
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-7 responsive-wrap">
+                <div class="row detail-filter-wrap">
+                    <div class="col-md-4 featured-responsive">
+                        <div class="detail-filter-text">
+                            <p>@Model.Count Results For <span>@ViewData["searchWord"]</span></p>
+                        </div>
+                    </div>
+                    <div class="col-md-8 featured-responsive">
+                        <div class="detail-filter">
+                            <p>Filter by</p>
+                            <form class="filter-dropdown">
+                                <select onchange="filter(this.value,'Price Range')" class="custom-select mb-2 mr-sm-2 mb-sm-0" id="priceRangeFilter">
+                                    <option selected>Price Range</option>
+                                    <option value="1">Low</option>
+                                    <option value="2">Medium</option>
+                                    <option value="3">High</option>
+                                </select>
+                            </form>
+                            <form class="filter-dropdown">
+                                <select onchange="filter(this.value,'Category')" class="custom-select mb-2 mr-sm-2 mb-sm-0" id="categoryFilter">
+                                    <option selected>Category</option>
+                                    <option value="1">Automotive</option>
+                                    <option value="2">Beauty And Spa</option>
+                                    <option value="3">Hotel</option>
+                                    <option value="4">Restaurant</option>
+                                    <option value="5">Shopping</option>
+                                    <option value="6">Coffee</option>
+                                    <option value="7">Club And Bar</option>
+                                </select>
+                            </form>
+                            <div class="map-responsive-wrap">
+                                <a class="map-icon" href="#"><span class="icon-location-pin"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*Checkboxes*@
+                <div class="row detail-checkbox-wrap">
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input onclick="filter(this.value,'Perk')" value="BikeParking" type="checkbox" class="custom-control-input" id="checkbox1">
+                                <label class="custom-control-label" for="checkbox1">Bike Parking</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input onclick="filter(this.value,'Perk')" value="WirelessInternet" type="checkbox" class="custom-control-input" id="checkbox2">
+                                <label class="custom-control-label" for="checkbox2">Wireless Internet</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input onclick="filter(this.value,'Perk')" value="SmokingAllowed" type="checkbox" class="custom-control-input" id="checkbox3">
+                                <label class="custom-control-label" for="checkbox3">Smoking Allowed</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input onclick="filter(this.value,'Perk')" value="StreetParking" type="checkbox" class="custom-control-input" id="checkbox4">
+                                <label class="custom-control-label" for="checkbox4">Street Parking</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input onclick="filter(this.value,'Perk')" value="SpecialNeeds" type="checkbox" class="custom-control-input" id="checkbox5">
+                                <label class="custom-control-label" for="checkbox5">Special Needs</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input onclick="filter(this.value,'Perk')" value="AcceptsCreditCards" type="checkbox" class="custom-control-input" id="checkbox6">
+                                <label class="custom-control-label" for="checkbox6">Accepts Credit Cards</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input onclick="filter(this.value,'Perk')" value="PetsFriendly" type="checkbox" class="custom-control-input" id="checkbox7">
+                                <label class="custom-control-label" for="checkbox7">Pets Friendly</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                @*Offers*@
+
+                <div class="row light-bg detail-options-wrap">
+                    @if (Model.Count == 0)
+                    {
+
+                        <div style="margin-bottom:500px;"></div>
+                    }
+                    else
+                    {
+                        @foreach (var place in Model)
+                        {
+                            <div class="col-sm-6 col-lg-12 col-xl-6 featured-responsive">
+                                <div class="featured-place-wrap">
+                                    <a asp-action="ById" asp-route-id="@place.Id">
+                                        <img src="@place.MainImage" class="img-fluid" alt="#">
+                                        <span class="featured-rating-orange ">@place.Rating</span>
+                                        <div class="featured-title-box">
+                                            <h6>@place.Name</h6>
+                                            <p>@place.Category.ToString()</p> <span>• </span>
+                                            <p>@place.ReviewCount Reviews</p> <span> • </span>
+                                            @if (place.PriceRange == PriceRange.Low)
+                                            {
+                                                <p><span>$</span>$$</p>
+                                            }
+                                            else if (place.PriceRange == PriceRange.Medium)
+                                            {
+                                                <p><span>$$</span>$</p>
+                                            }
+                                            else
+                                            {
+                                                <p><span>$$$</span></p>
+                                            }
+                                            <ul>
+                                                <li>
+                                                    <span class="icon-location-pin"></span>
+                                                    <p style="font-weight:bold">@place.City</p>
+                                                </li>
+                                                <li>
+                                                    <span class="icon-location-pin"></span>
+                                                    <p>@place.Address</p>
+                                                </li>
+                                                <li>
+                                                    <span class="icon-screen-smartphone"></span>
+                                                    <p>+@place.TelephoneNumber</p>
+                                                </li>
+                                                @if (!String.IsNullOrWhiteSpace(place.WebsiteName))
+                                                {
+                                                    <li>
+                                                        <span class="icon-link"></span>
+                                                        <p>@place.WebsiteName</p>
+                                                    </li>
+                                                }
+
+                                            </ul>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                        }
+                    }
+
+
+                </div>
+            </div>
+            <div class="col-md-5 wheel">
+
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        var searchWord = '@ViewData["searchWord"]';
+        var city ='@ViewData["city"]';
+        let filterInput = { take: 4, skip: 0, city: city, searchWord: searchWord, perks: [], category:"", priceRange: null};
+        function filter(value, type) {
+
+            if (type === "Category") {
+                filterInput.category = value;
+            }
+            else if (type === "Perk") {
+                filterInput.perks.push(value);
+            }
+            else if (type === "Price Range") {
+                filterInput.priceRange = value;
+            }
+            $.ajax({
+                url: "/Place/GetPlaces",
+                type: "POST",
+                data: filterInput,
+                    //contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    //headers: { 'X-CSRF-TOKEN': token },
+                    success: function (data) {
+                       console.log(data);
+                    }
+                });
+
+        }
+    </script>
+}

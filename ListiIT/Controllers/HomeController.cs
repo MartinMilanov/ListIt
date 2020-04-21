@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ListIT.Web.ViewModels.Error;
+using ListIT.Web.ViewModels.Home;
 
 namespace ListiIT.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -22,7 +22,12 @@ namespace ListiIT.Controllers
         {
             return View();
         }
-
+        [HttpPost]
+        public IActionResult Index(HomeInputModel input)
+        {
+            return this.RedirectToAction("Listing", "Place",
+                new { searchWord = input.SearchWord, city = input.City });
+        }
         public IActionResult TestRazorPage()
         {
             return View();

@@ -32,6 +32,26 @@ namespace ListiIT.Web.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Listing(string city, string searchWord)
+        {
+            var input = new PlaceFilterInputModel()
+            {
+                Take = 4,
+                Skip = 0,
+                City = city,
+                SearchWord = searchWord
+            };
+
+            this.ViewData["searchWord"] = searchWord;
+            this.ViewData["city"] = city;
+
+            var listing = await this.placeService.GetPlaces(input);
+
+            return this.View(listing);
+        }
+
+
+        [HttpGet]
         public async Task<IActionResult> ById(string id)
         {
             var place = await this.placeService.GetById(id);
@@ -58,6 +78,14 @@ namespace ListiIT.Web.Controllers
             var placeId = await this.placeService.AddPlace(input);
 
             return this.RedirectToAction(nameof(this.ById), new { id = placeId });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ICollection<PlaceListModel>>> GetPlaces(PlaceFilterInputModel input)
+        {
+            var result = await this.placeService.GetPlaces(input);
+
+            return Ok(result);
         }
     }
 }

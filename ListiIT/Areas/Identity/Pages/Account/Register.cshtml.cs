@@ -49,6 +49,7 @@ namespace ListiIT.Web.Areas.Identity.Pages.Account
         public string ReturnUrl { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
+
         [BindProperty]
         public IFormFile File { get; set; }
         public class InputModel

@@ -5,6 +5,7 @@ using ListIT.Web.ViewModels.PlaceModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,14 +40,65 @@ namespace ListIT.Services.Data.PlaceServices
         public async Task<PlaceDetailViewModel> GetById(string id)
         {
             var place = await this.context.Places
-                .Include(x=>x.Creator)
-                .ThenInclude(x=>x.Places)
-                .Include(x=>x.Reviews)
-                .ThenInclude(x=>x.Creator)
-                .FirstOrDefaultAsync(x=>x.Id == id);
+                .Include(x => x.Creator)
+                .ThenInclude(x => x.Places)
+                .Include(x => x.Reviews)
+                .ThenInclude(x => x.Creator)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
 
             return place.To<PlaceDetailViewModel>();
         }
+
+
+        public async Task<ICollection<PlaceListModel>> GetPlaces(PlaceFilterInputModel input)
+        {
+            var query = this.context.Places
+                .Include(x => x.PlacePerks)
+                .ThenInclude(x => x.Perk)
+                .Include(x => x.Reviews)
+                .AsQueryable();
+
+            if (!String.IsNullOrWhiteSpace(input.SearchWord))
+            {
+                query = query
+                    .Where(x => x.Name.ToLower().Contains(input.SearchWord.ToLower()));
+
+            }
+            if (!String.IsNullOrWhiteSpace(input.City))
+            {
+                query = query
+                    .Where(x => x.City.ToLower().Contains(input.City.ToLower()));
+            }
+            if (input.Category != 0)
+            {
+                query = query
+                    .Where(x => x.Category == input.Category);
+            }
+            if (input.PriceRange != 0)
+            {
+                query = query
+                    .Where(x => x.PriceRange == input.PriceRange);
+            }
+            if (input.Perks != null)
+            {
+                if(input.Perks.Count > 0)
+                foreach (var item in input.Perks)
+                {
+                    query = query
+                        .Where(x => x.PlacePerks.Any(x => x.Perk.Name == item));
+                }
+            }
+
+            var listing = await query
+                .Skip(input.Skip)
+                .Take(input.Take)
+                .To<PlaceListModel>()
+                .ToListAsync();
+
+            return listing;
+        }
+
     }
 }
+
