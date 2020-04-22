@@ -58,7 +58,7 @@
                         </div>
                         <div class="reserve-btn">
                             <div class="featured-btn-wrap">
-                                <a href="#" class="btn btn-danger">RESERVE A SEAT</a>
+                                <a href="#" class="btn btn-danger">SEND A MESSAGE</a>
                             </div>
                         </div>
                     </div>
@@ -187,10 +187,9 @@
                             <p> +@Model.TelephoneNumber</p>
                         </div>
                         <div class="address">
-                            <span class="icon-link"></span>
                             @if (Model.WebsiteName != null)
                             {
-
+                                <span class="icon-link"></span>
                                 <p>@Model.WebsiteName</p>
                             }
                         </div>
@@ -245,22 +244,5 @@
             },
         });
     </script>
-    @*<script>
-            if ($('.image-link').length) {
-                $('.image-link').magnificPopup({
-                    type: 'image',
-                    gallery: {
-                        enabled: true
-                    }
-                });
-            }
-            if ($('.image-link2').length) {
-                $('.image-link2').magnificPopup({
-                    type: 'image',
-                    gallery: {
-                        enabled: true
-                    }
-                });
-            }
-        </script>*@
+   
 </body>

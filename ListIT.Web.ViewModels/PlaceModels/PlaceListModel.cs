@@ -19,14 +19,15 @@ namespace ListIT.Web.ViewModels.PlaceModels
         public string Address { get; set; }
         public int ReviewCount { get; set; }
         public double Rating { get; set; }
-        public Category Category { get; set; }
+        public string Category { get; set; }
         public PriceRange PriceRange { get; set; }
         public string MainImage => this.ImageUrls.Split(" // ").ToArray()[0];
         public string ImageUrls { get; set; }
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Place, PlaceListModel>()
-                .ForMember(x => x.ReviewCount, opt => opt.MapFrom(x => x.Reviews.Count));
+                .ForMember(x => x.ReviewCount, opt => opt.MapFrom(x => x.Reviews.Count))
+                .ForMember(x=>x.Category, opt => opt.MapFrom(x=>x.Category.ToString()));
         }
     }
 }

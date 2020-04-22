@@ -1,10 +1,8 @@
-﻿@model ICollection<ListIT.Web.ViewModels.PlaceModels.PlaceListModel>;
+﻿@model ICollection<PlaceListModel>;
 
 @{
-
     ViewData["Title"] = "Listing";
 }
-
 
 <section>
     <div class="container-fluid">
@@ -106,12 +104,11 @@
 
                 </div>
 
-                @*Offers*@
+                @*Places*@
 
-                <div class="row light-bg detail-options-wrap">
+                <div id="places" class="row light-bg detail-options-wrap">
                     @if (Model.Count == 0)
                     {
-
                         <div style="margin-bottom:500px;"></div>
                     }
                     else
@@ -121,11 +118,11 @@
                             <div class="col-sm-6 col-lg-12 col-xl-6 featured-responsive">
                                 <div class="featured-place-wrap">
                                     <a asp-action="ById" asp-route-id="@place.Id">
-                                        <img src="@place.MainImage" class="img-fluid" alt="#">
+                                        <img src="@place.MainImage" class="img-fluid" alt="#" style="height:300px;width:auto;object-fit:fill">
                                         <span class="featured-rating-orange ">@place.Rating</span>
                                         <div class="featured-title-box">
                                             <h6>@place.Name</h6>
-                                            <p>@place.Category.ToString()</p> <span>• </span>
+                                            <p>@place.Category</p> <span>• </span>
                                             <p>@place.ReviewCount Reviews</p> <span> • </span>
                                             @if (place.PriceRange == PriceRange.Low)
                                             {
@@ -152,61 +149,149 @@
                                                     <span class="icon-screen-smartphone"></span>
                                                     <p>+@place.TelephoneNumber</p>
                                                 </li>
-                                                @if (!String.IsNullOrWhiteSpace(place.WebsiteName))
-                                                {
-                                                    <li>
-                                                        <span class="icon-link"></span>
-                                                        <p>@place.WebsiteName</p>
-                                                    </li>
-                                                }
-
                                             </ul>
                                         </div>
                                     </a>
                                 </div>
                             </div>
-
                         }
                     }
 
+                </div>
+
+                <div id="placesFiltered" class="row light-bg detail-options-wrap">
 
                 </div>
-            </div>
-            <div class="col-md-5 wheel">
 
+
+                @*Spinner*@
+                <div id="spinner" style="align-content:center;justify-content:center;" class="row detail-options-wrap">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div style="margin-bottom:600px;"></div>
+                </div>
+
+
+            </div>
+            <div class="col-md-5" style="background-color:darkorange">
+                <div data-template="test">
+
+                </div>
             </div>
         </div>
     </div>
 </section>
 
+<div hidden id="placeTemplate">
+    <div class="col-sm-6 col-lg-12 col-xl-6 featured-responsive">
+        <div class="featured-place-wrap">
+            <a id="actionLink" href="">
+                <img class="img-fluid" id="placeImage" style="height:300px;width:auto;object-fit:fill">
+                <span class="featured-rating-orange"></span>
+                <div class="featured-title-box">
+                    <h6 id="name"></h6>
+                    <p id="category"></p><span></span>
+                    <p id="reviewCount"> Reviews</p> <span></span>
+
+                    <p id="priceRange"><span></span></p>
+
+                    <ul>
+                        <li>
+                            <span class="icon-location-pin"></span>
+                            <p id="city" style="font-weight:bold"></p>
+                        </li>
+                        <li>
+                            <span class="icon-location-pin"></span>
+                            <p id="address"></p>
+                        </li>
+                        <li>
+                            <span class="icon-screen-smartphone"></span>
+                            <p id="telephoneNumber"></p>
+                        </li>
+                    </ul>
+                </div>
+            </a>
+        </div>
+    </div>
+
+</div>
+
 @section Scripts {
     <script>
+        $('#spinner').hide();
+        $('#placesFiltered').hide();
+
+        let query = new Array();
+
         var searchWord = '@ViewData["searchWord"]';
-        var city ='@ViewData["city"]';
-        let filterInput = { take: 4, skip: 0, city: city, searchWord: searchWord, perks: [], category:"", priceRange: null};
+        var city = '@ViewData["city"]';
+
+        let filterInput = { take: 4, skip: 0, city: city, searchWord: searchWord, perks: new Array(), category:"", priceRange: null};
+
         function filter(value, type) {
+            $('#places').hide();
+            $('#spinner').show();
 
             if (type === "Category") {
                 filterInput.category = value;
             }
             else if (type === "Perk") {
-                filterInput.perks.push(value);
+                if (filterInput.perks.some(x => x === value)) {
+                    filterInput.perks = filterInput.perks.filter(x => x != value);
+                }
+                else {
+                    filterInput.perks.push(value);
+                }
             }
             else if (type === "Price Range") {
                 filterInput.priceRange = value;
             }
+
             $.ajax({
                 url: "/Place/GetPlaces",
                 type: "POST",
                 data: filterInput,
-                    //contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                    //headers: { 'X-CSRF-TOKEN': token },
-                    success: function (data) {
-                       console.log(data);
-                    }
-                });
+                success: function (data) {
+                    query = data;
+                    appendFiltered(query);
+                }
+                  });
+        }
 
+        function appendFiltered(query) {
+            $('#placesFiltered').empty();
+            let dollarString = '$';
+            if (query.length === 0) {
+                $('#placesFiltered')
+                    .append("<div style='width:100%; height:50px;' class='alert alert-info'>We found no results</div>")
+                    .append("<div style='height:600px;'></div>");
+            }
+            else {
+                query.forEach(place => {
+                    var t = $("#placeTemplate");
+                    t.find('#actionLink').attr("href", "/Place/ById/" + place.id);
+                    t.find('#placeImage').attr('src', place.mainImage);
+                    t.find('.featured-rating-orange').text(`${place.rating}`);
+                    t.find('#name').text(`${place.name}`);
+                    t.find('#category').text(`${place.category}`);
+                    t.find('#reviewCount').text(`${place.reviewCount} Reviews`);
+                    t.find('#category').text(`${place.category}`);
+                    t.find('#priceRange')
+                        .empty()
+                        .append(`<span>${dollarString.repeat(place.priceRange)}</span>`)
+                        .append(dollarString.repeat(3 - place.priceRange));
+                    t.find('#city').text(`${place.city}`);
+                    t.find('#address').text(`${place.address}`);
+                    t.find('#telephoneNumber').text(`${place.telephoneNumber}`);
+
+                    $('#placesFiltered').append($('#placeTemplate').html());
+                });
+            }
+
+            $('#spinner').hide();
+            $('#placesFiltered').show();
         }
     </script>
 }

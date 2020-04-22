@@ -44,6 +44,7 @@ namespace ListiIT.Web.Controllers
 
             this.ViewData["searchWord"] = searchWord;
             this.ViewData["city"] = city;
+            this.ViewData["places"] = new List<PlaceListModel>();
 
             var listing = await this.placeService.GetPlaces(input);
 
