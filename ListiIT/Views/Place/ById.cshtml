@@ -11,10 +11,8 @@
             <div class="swiper-wrapper">
                 @foreach (var imageUrl in Model.ImageUrls.Split(" // ", StringSplitOptions.RemoveEmptyEntries).ToArray())
                 {
-
                     <div style="overflow:hidden;" class="swiper-slide">
                         <img style="width:100%;height: 300px;overflow: hidden;" src="@imageUrl" class="img-fluid">
-
                     </div>
                 }
 
@@ -53,7 +51,7 @@
                             <span>@Model.Rating</span>
                         </div>
                         <div class="review-btn">
-                            <a href="#" class="btn btn-outline-danger">WRITE A REVIEW</a>
+                            <a href="#" class="btn btn-outline-danger" data-toggle="modal" data-target=".bd-example-modal-lg">WRITE A REVIEW</a>
                             <span>34 reviews</span>
                         </div>
                         <div class="reserve-btn">
@@ -80,92 +78,87 @@
                             <hr>
                         </div>
                         <div class="row">
+                            @foreach (var perk in Model.Perks)
+                            {
                             <div class="col-md-4">
                                 <label class="custom-checkbox">
                                     <span class="ti-check-box"></span>
-                                    <span class="custom-control-description">Bike Parking</span>
+                                    <span class="custom-control-description">@perk</span>
                                 </label>
                             </div>
-                            <div class="col-md-4">
-                                <label class="custom-checkbox">
-                                    <span class="ti-check-box"></span>
-                                    <span class="custom-control-description">Wireless Internet  </span>
-                                </label>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="custom-checkbox">
-                                    <span class="ti-check-box"></span>
-                                    <span class="custom-control-description">Smoking Allowed  </span>
-                                </label>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="custom-checkbox">
-                                    <span class="ti-check-box"></span>
-                                    <span class="custom-control-description">Street Parking</span>
-                                </label>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="custom-checkbox">
-                                    <span class="ti-check-box"></span>
-                                    <span class="custom-control-description">Special</span>
-                                </label>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="custom-checkbox">
-                                    <span class="ti-check-box"></span>
-                                    <span class="custom-control-description">Accepts Credit cards</span>
-                                </label>
-                            </div>
+                            }
                         </div>
                     </div>
                     <div class="booking-checkbox_wrap mt-4">
+
+                        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div style="padding:25px;" class="modal-content">
+                                    <h4 style="color:rgb(66, 66, 66);font-weight:bolder;margin-bottom:25px">Post your review</h4>
+                                    <form asp-action="PostReview" asp-controller="Review" method="post">
+
+                                        <input name="PlaceId" value="@Model.Id" hidden />
+
+                                        <div class="form-group">
+                                            <label style="color:rgb(128, 128, 128)" class="custom-control-description">Name</label>
+                                            <input name="Name" class="form-control" placeholder="Perfect Pizzas !" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label style="color:rgb(128, 128, 128)">Description</label>
+                                            <textarea name="Description" class="form-control" placeholder="Pizzass were perfect , not old ,preecooked or in bad tas..."></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label style="color:rgb(128, 128, 128)">Rating</label>
+                                            <input name="Rating" type="number" class="form-control" placeholder="Number between 1 and 8" />
+                                        </div>
+
+                                        <button style="margin-top:30px" type="submit" class="btn btn-outline-danger" data-toggle="modal" data-target=".bd-example-modal-lg">WRITE A REVIEW</button>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                        </div>
                         @if (Model.Reviews.Count <= 0)
                         {
-
                             <div class="alert alert-info"> There are still no reviews for this place</div>
                         }
                         else
                         {
-                            <h5>34 Reviews</h5>
+                            <h5 style="margin-bottom:20px">@Model.Reviews.Count Reviews</h5>
 
-
-                            <div class="customer-review_wrap">
-                                <div class="customer-img">
-                                    <img src="images/customer-img1.jpg" class="img-fluid" alt="#">
-                                    <p>Amanda G</p>
-                                    <span>35 Reviews</span>
-                                </div>
-                                <div class="customer-content-wrap">
-                                    <div class="customer-content">
-                                        <div class="customer-review">
-                                            <h6>Best noodles in the Newyork city</h6>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span class="round-icon-blank"></span>
-                                            <p>Reviewed 2 days ago</p>
-                                        </div>
-                                        <div class="customer-rating">8.0</div>
+                            @foreach (var review in Model.Reviews)
+                            {
+                                <div class="customer-review_wrap">
+                                    <div class="customer-img">
+                                        <img src="@review.Creator.ImageUrl" class="review-image" alt="#" style="width:90px;height:90px">
+                                        <p>@review.Creator.UserName</p>
+                                        <span>@review.Creator.ReviewCount Reviews</span>
                                     </div>
-                                    <p class="customer-text">
-                                        I love the noodles here but it is so rare that I get to come here. Tasty Hand-Pulled Noodles is the best type of whole in the wall restaurant. The staff are really nice, and you should be seated quickly. I usually get the
-                                        hand pulled noodles in a soup. House Special #1 is amazing and the lamb noodles are also great. If you want your noodles a little chewier, get the knife cut noodles, which are also amazing. Their dumplings are great
-                                        dipped in their chili sauce.
-                                    </p>
-                                    <p class="customer-text">
-                                        I love how you can see into the kitchen and watch them make the noodles and you can definitely tell that this is a family run establishment. The prices are are great with one dish maybe being $9. You just have to remember
-                                        to bring cash.
-                                    </p>
-                                    <ul>
-                                        <li><img src="images/review-img1.jpg" class="img-fluid" alt="#"></li>
-                                        <li><img src="images/review-img2.jpg" class="img-fluid" alt="#"></li>
-                                        <li><img src="images/review-img3.jpg" class="img-fluid" alt="#"></li>
-                                    </ul>
-                                    <span>28 people marked this review as helpful</span>
-                                    <a href="#"><span class="icon-like"></span>Helpful</a>
+                                    <div class="customer-content-wrap">
+                                        <div class="customer-content">
+                                            <div class="customer-review">
+                                                <h6>@review.Name</h6>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span class="round-icon-blank"></span>
+                                                <p>Reviewed : @review.CreatedOn</p>
+                                            </div>
+                                            <div class="customer-rating">@review.Rating</div>
+                                        </div>
+                                        <p class="customer-text">@review.Description</p>
+                                        @* <span>28 people marked this review as helpful</span>*@
+                                        @*<a href="#"><span class="icon-like"></span>Helpful</a>*@
+                                    </div>
                                 </div>
-                            </div>
+                            }
+
 
                         }
                         <hr>
@@ -244,5 +237,5 @@
             },
         });
     </script>
-   
+
 </body>

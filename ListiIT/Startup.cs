@@ -19,6 +19,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using ListIT.Services.Data.PlaceServices;
 using ListIT.Services.Data.FileService;
+using ListIT.Services.Data.ReivewService;
 
 namespace ListiIT
 {
@@ -52,6 +53,7 @@ namespace ListiIT
             services.AddControllersWithViews();
 
             services.AddTransient<IPlaceService, PlaceService>();
+            services.AddTransient<IReviewService, ReviewService>();
             services.AddScoped<IFileService, FileService>();
         }
 

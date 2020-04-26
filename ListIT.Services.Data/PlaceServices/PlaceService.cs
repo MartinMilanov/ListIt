@@ -44,13 +44,12 @@ namespace ListIT.Services.Data.PlaceServices
                 .ThenInclude(x => x.Places)
                 .Include(x => x.Reviews)
                 .ThenInclude(x => x.Creator)
+                .Include(x=>x.PlacePerks)
+                .ThenInclude(x=>x.Perk)
                 .FirstOrDefaultAsync(x => x.Id == id);
-
 
             return place.To<PlaceDetailViewModel>();
         }
-
-
         public async Task<ICollection<PlaceListModel>> GetPlaces(PlaceFilterInputModel input)
         {
             var query = this.context.Places
