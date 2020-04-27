@@ -1,5 +1,6 @@
 ﻿using ListIT.Data.Models;
 using ListIT.Services.Mapping;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,6 +15,9 @@ namespace ListIT.Web.ViewModels.Users
 
         [MaxLength(120)]
         public string Description { get; set; }
+
+        public IFormFile Image { get; set; }
+        public string ImageUrl { get; set; }
 
         [Phone]
         [Display(Name = "Phone number")]

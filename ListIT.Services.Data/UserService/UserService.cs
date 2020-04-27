@@ -29,6 +29,11 @@ namespace ListIT.Services.Data.UserService
             user.Description = input.Description;
             user.PhoneNumber = input.PhoneNumber;
 
+            if (!String.IsNullOrEmpty(input.ImageUrl))
+            {
+                user.ImageUrl = input.ImageUrl;
+            }
+
             user.TwitterProfile = input.TwitterProfile;
             user.FacebookProfile = input.FacebookProfile;
             user.InstagramProfile = input.InstagramProfile;

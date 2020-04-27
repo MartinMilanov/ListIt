@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using ListIT.Data.Common.Enums;
 using ListIT.Data.Models;
+using ListIT.Services.Data.FileService;
 using ListIT.Services.Data.UserService;
 using ListIT.Services.Mapping;
 using ListIT.Web.ViewModels.Users;
@@ -19,15 +21,18 @@ namespace ListiIT.Web.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IUserService userService;
+        private readonly IFileService fileService;
 
         public IndexModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IUserService userService)
+            IUserService userService,
+            IFileService fileService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             this.userService = userService;
+            this.fileService = fileService;
         }
 
         public UserDetailModel UserModel { get; set; }
@@ -67,6 +72,11 @@ namespace ListiIT.Web.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         {
+            if (this.Input.Image != null)
+            {
+               var imageUrl = await this.fileService.UploadFile(this.Input.Image, FileType.UserFile);
+                this.Input.ImageUrl = imageUrl;
+            }
             var user = await this.userService.UpdateUser(this.Input, this.User.Identity.Name);
 
             await _signInManager.RefreshSignInAsync(user);
