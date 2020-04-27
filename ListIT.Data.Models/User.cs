@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ListIT.Data.Models
 {
-    public class User:IdentityUser<string>
+    public class User : IdentityUser<string>
     {
         public User()
         {
@@ -13,6 +13,11 @@ namespace ListIT.Data.Models
             this.Places = new HashSet<Place>();
             this.Reviews = new HashSet<Review>();
         }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string FacebookProfile { get; set; }
+        public string TwitterProfile { get; set; }
+        public string InstagramProfile { get; set; }
         public string ImageUrl { get; set; }
         public ICollection<Place> Places { get; set; }
         public ICollection<Review> Reviews { get; set; }

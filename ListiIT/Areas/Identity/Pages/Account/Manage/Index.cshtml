@@ -1,0 +1,112 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+<div class="row" style="margin-bottom:50px">
+    <div class="col-md-2">
+        <img src="https://images.pexels.com/photos/736716/pexels-photo-736716.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" class="profile-image" />
+    </div>
+    <div class="col-md-4">
+        <div class="row">
+            <h5 class="profile-title">@this.Model.UserModel.Name</h5>
+        </div>
+        <div class="row">
+            <h6 class="profile-reviews">@this.Model.UserModel.Reviews.Count reviews</h6>
+        </div>
+    </div>
+
+    <div class="col-md-12 profile-description">
+        <hr />
+        <h5>Description</h5>
+        <p>@this.Model.UserModel.Description</p>
+    </div>
+
+    <div class="col-md-12 profile-review-section">
+        <hr />
+        <h5 style="margin-bottom:25px">Reviews</h5>
+        @if (this.Model.UserModel.Reviews.Count == 0)
+        {
+            <div class="alert alert-light">
+                This user hasn't posted any reviews yet
+            </div>
+        }
+        else
+        {
+
+            @foreach (var review in Model.UserModel.Reviews)
+            {
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <img src="@review.Place.MainImage" class="test" />
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <h6>@review.Place.Name</h6>
+                        </div>
+                        <div class="row">
+                            <div class="alert alert-secondary" role="alert">
+                                @review.Description
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+</div>
+<hr />
+
+<div class="row profile-info-change">
+    <h4 class="col-md-12">Change profile info</h4>
+    <div class="col-md-6">
+        <form id="profile-form" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Username"></label>
+                <input asp-for="Username" class="form-control" disabled placeholder="@this.User.Identity.Name" />
+
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Name"></label>
+                <input asp-for="Input.Name" class="form-control" />
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Description"></label>
+                <input asp-for="Input.Description" class="form-control" />
+                <span asp-validation-for="Input.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.PhoneNumber"></label>
+                <input asp-for="Input.PhoneNumber" class="form-control" />
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.FacebookProfile"></label>
+                <input asp-for="Input.FacebookProfile" class="form-control" />
+                <span asp-validation-for="Input.FacebookProfile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.TwitterProfile"></label>
+                <input asp-for="Input.TwitterProfile" class="form-control" />
+                <span asp-validation-for="Input.TwitterProfile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.InstagramProfile"></label>
+                <input asp-for="Input.InstagramProfile" class="form-control" />
+                <span asp-validation-for="Input.InstagramProfile" class="text-danger"></span>
+            </div>
+            <button id="update-profile-button" type="submit" class="btn btn-secondary">Save</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

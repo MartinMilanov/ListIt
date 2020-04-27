@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using ListIT.Data.Models;
 using ListIT.Web.ViewModels.Users;
+using ListIT.Web.ViewModels.PlaceModels;
 
 namespace ListIT.Web.ViewModels.Reviews
 {
@@ -13,6 +14,7 @@ namespace ListIT.Web.ViewModels.Reviews
         public string Description { get; set; }
         public double Rating { get; set; }
         public DateTime CreatedOn { get; set; }
+        public PlaceListModel Place { get; set; }
         public UserReviewModel Creator { get; set; }
 
     }

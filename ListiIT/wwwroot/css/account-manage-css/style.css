@@ -1,0 +1,59 @@
+﻿
+h1{
+    color:black
+}
+.layout-box{
+    padding:5%;
+}
+.profile-image{
+    height:130px;
+    width:130px;
+    border-radius:100px;
+    image-orientation:from-image;
+    object-fit:cover;
+}
+.profile-title{
+    padding-top:25px;
+}
+.profile-reviews{
+    color:gainsboro;
+    padding-left:2px;
+}
+.profile-description{
+    padding-left:16.5%;
+    padding-right:25%;
+}
+.profile-review-section {
+    padding-left: 16.5%;
+    width:100%;
+}
+.profile-info-change{
+    margin-top:15px;
+}
+
+
+.nav-item a {
+    color: #ff3a6d;
+}
+.nav-item:hover {
+    background-color: #ff3a6d;
+    border-radius:6px;
+}
+.nav-item a:hover {
+    color: white;
+}
+
+.nav-item:active{
+    background-color: #ff3a6d;
+    border-radius: 6px;
+}
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    background-color: #ff3a6d;
+}
+
+.test{
+    height: 80px;
+    width: 80px;
+    border-radius: 100px;
+    object-fit: cover;
+}

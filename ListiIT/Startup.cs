@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Http;
 using ListIT.Services.Data.PlaceServices;
 using ListIT.Services.Data.FileService;
 using ListIT.Services.Data.ReivewService;
+using ListIT.Services.Data.UserService;
 
 namespace ListiIT
 {
@@ -52,6 +53,7 @@ namespace ListiIT
             services.AddRazorPages();
             services.AddControllersWithViews();
 
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<IPlaceService, PlaceService>();
             services.AddTransient<IReviewService, ReviewService>();
             services.AddScoped<IFileService, FileService>();
