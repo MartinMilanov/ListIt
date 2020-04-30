@@ -80,12 +80,12 @@
                         <div class="row">
                             @foreach (var perk in Model.Perks)
                             {
-                            <div class="col-md-4">
-                                <label class="custom-checkbox">
-                                    <span class="ti-check-box"></span>
-                                    <span class="custom-control-description">@perk</span>
-                                </label>
-                            </div>
+                                <div class="col-md-4">
+                                    <label class="custom-checkbox">
+                                        <span class="ti-check-box"></span>
+                                        <span class="custom-control-description">@perk</span>
+                                    </label>
+                                </div>
                             }
                         </div>
                     </div>
@@ -143,18 +143,19 @@
                                         <div class="customer-content">
                                             <div class="customer-review">
                                                 <h6>@review.Name</h6>
-                                                <span></span>
-                                                <span></span>
-                                                <span></span>
-                                                <span></span>
-                                                <span class="round-icon-blank"></span>
+                                                @for (int i = 0; i < review.Rating; i++)
+                                                {
+                                                    <span></span>
+                                                }
+                                                @for (int i = 0; i < 8 - review.Rating; i++)
+                                                {
+                                                    <span class="round-icon-blank"></span>
+                                                }
                                                 <p>Reviewed : @review.CreatedOn</p>
                                             </div>
                                             <div class="customer-rating">@review.Rating</div>
                                         </div>
                                         <p class="customer-text">@review.Description</p>
-                                        @* <span>28 people marked this review as helpful</span>*@
-                                        @*<a href="#"><span class="icon-like"></span>Helpful</a>*@
                                     </div>
                                 </div>
                             }

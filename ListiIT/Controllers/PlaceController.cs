@@ -44,7 +44,7 @@ namespace ListiIT.Web.Controllers
 
             this.ViewData["searchWord"] = searchWord;
             this.ViewData["city"] = city;
-            this.ViewData["places"] = new List<PlaceListModel>();
+            this.ViewData["placesCount"] = this.placeService.GetCount(input);
 
             var listing = await this.placeService.GetPlaces(input);
 
@@ -85,8 +85,8 @@ namespace ListiIT.Web.Controllers
         public async Task<ActionResult<ICollection<PlaceListModel>>> GetPlaces(PlaceFilterInputModel input)
         {
             var result = await this.placeService.GetPlaces(input);
-
-            return Ok(result);
+            var placesCount = this.placeService.GetCount(input);
+            return Ok(new { result, placesCount });
         }
     }
 }

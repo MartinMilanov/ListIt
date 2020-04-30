@@ -27,7 +27,7 @@
                             </form>
                             <form class="filter-dropdown">
                                 <select onchange="filter(this.value,'Category')" class="custom-select mb-2 mr-sm-2 mb-sm-0" id="categoryFilter">
-                                    <option selected>Category</option>
+                                    <option value="" selected>Category</option>
                                     <option value="1">Automotive</option>
                                     <option value="2">Beauty And Spa</option>
                                     <option value="3">Hotel</option>
@@ -106,7 +106,7 @@
 
                 @*Places*@
 
-                <div id="places" class="row light-bg detail-options-wrap">
+                <div id="placesFiltered" class="row light-bg detail-options-wrap">
                     @if (Model.Count == 0)
                     {
                         <div style="margin-bottom:500px;"></div>
@@ -158,11 +158,17 @@
                     }
 
                 </div>
-
-                <div id="placesFiltered" class="row light-bg detail-options-wrap">
-
-                </div>
-
+                
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-end">
+                            <li class="page-item" style="margin-right:10px">
+                                <button class="btn btn-warning disabled" id="prev" onclick="prev()">Previous</button>
+                            </li>
+                            <li class="page-item">
+                                <button class="btn btn-warning" id="next" onclick="next()">Next</button>
+                            </li>
+                        </ul>
+                    </nav>
 
                 @*Spinner*@
                 <div id="spinner" style="align-content:center;justify-content:center;" class="row detail-options-wrap">
@@ -175,14 +181,11 @@
 
             </div>
             <div class="col-md-5" style="background-color:darkorange">
-                <div data-template="test">
 
-                </div>
             </div>
         </div>
     </div>
 </section>
-
 <div hidden id="placeTemplate">
     <div class="col-sm-6 col-lg-12 col-xl-6 featured-responsive">
         <div class="featured-place-wrap">
@@ -214,25 +217,27 @@
             </a>
         </div>
     </div>
-
 </div>
 
 @section Scripts {
     <script>
-        $('#spinner').hide();
-        $('#placesFiltered').hide();
-
-        let query = new Array();
-
         var searchWord = '@ViewData["searchWord"]';
         var city = '@ViewData["city"]';
+
+        let query = new Array();
+        let numberOfPages = Math.ceil(parseInt(@ViewData["placesCount"]) / 4);
+        
+        let currentPage = 1;
+        $('#spinner').hide();
+
+
 
         let filterInput = { take: 4, skip: 0, city: city, searchWord: searchWord, perks: new Array(), category:"", priceRange: null};
 
         function filter(value, type) {
-            $('#places').hide();
+            filterInput.skip = 0;
             $('#spinner').show();
-
+            
             if (type === "Category") {
                 filterInput.category = value;
             }
@@ -254,15 +259,33 @@
                 data: filterInput,
                     dataType: "json",
                 success: function (data) {
-                    query = data;
+                    query = data.result;
+                    console.log(data)
+                    numberOfPages = Math.ceil(parseInt(data.placesCount) / 4);
+                    if (numberOfPages <= 1) {
+                         $('#next').addClass('disabled');
+                         $('#next').prop("disabled", true);
+                         $('#prev').addClass('disabled');
+                         $('#prev').prop("disabled", true);
+                    }
+                    if (numberOfPages > 1) {
+                        console.log("yes");
+                         $('#prev').addClass('disabled');
+                        $('#prev').prop("disabled", true);
+                        $('#next').removeClass('disabled');
+                         $('#next').prop("disabled", false);
+                    }
+                    currentPage = 1;
                     appendFiltered(query);
                 }
                   });
         }
 
         function appendFiltered(query) {
+
             $('#placesFiltered').empty();
             let dollarString = '$';
+
             if (query.length === 0) {
                 $('#placesFiltered')
                     .append("<div style='width:100%; height:50px;' class='alert alert-info'>We found no results</div>")
@@ -291,7 +314,62 @@
             }
 
             $('#spinner').hide();
-            $('#placesFiltered').show();
         }
+
+        function next() {
+            filterInput.skip += 4;
+            currentPage++;
+
+            //ajax
+            $.ajax({
+                url: "/Place/GetPlaces",
+                type: "POST",
+                data: filterInput,
+                    dataType: "json",
+                success: function (data) {
+                    query = data.result;
+                    appendFiltered(query);
+                }
+            });
+            //ajax
+
+            if (currentPage == 2) {
+                $('#prev').removeClass('disabled');
+                $('#prev').prop("disabled", false);
+            }
+
+            if (currentPage == numberOfPages) {
+                $('#next').addClass('disabled');
+                $('#next').prop("disabled", true);
+            }
+        }
+
+        function prev() {
+            filterInput.skip -= 4;
+            if (currentPage <= numberOfPages) {
+                $('#next').removeClass('disabled');
+                $('#next').prop("disabled", false);
+            }
+            currentPage--;
+
+            //ajax
+            $.ajax({
+                url: "/Place/GetPlaces",
+                type: "POST",
+                data: filterInput,
+                    dataType: "json",
+                success: function (data) {
+                    query = data.result;
+                    appendFiltered(query);
+                }
+            });
+            //ajax
+
+            if (currentPage == 1) {
+                $('#prev').addClass('disabled');
+                $('#prev').prop("disabled", true);
+            }
+        }
+
     </script>
 }

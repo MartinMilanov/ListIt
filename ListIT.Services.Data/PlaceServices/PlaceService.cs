@@ -44,13 +44,32 @@ namespace ListIT.Services.Data.PlaceServices
                 .ThenInclude(x => x.Places)
                 .Include(x => x.Reviews)
                 .ThenInclude(x => x.Creator)
-                .Include(x=>x.PlacePerks)
-                .ThenInclude(x=>x.Perk)
+                .Include(x => x.PlacePerks)
+                .ThenInclude(x => x.Perk)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             return place.To<PlaceDetailViewModel>();
         }
         public async Task<ICollection<PlaceListModel>> GetPlaces(PlaceFilterInputModel input)
+        {
+            var query = this.FilterPlaces(input);
+
+            var listing = await query
+                .Skip(input.Skip)
+                .Take(input.Take)
+                .To<PlaceListModel>()
+                .ToListAsync();
+
+            return listing;
+        }
+
+        public int GetCount(PlaceFilterInputModel input)
+        {
+            var query = this.FilterPlaces(input);
+            return query.Count();
+        }
+
+        private IQueryable<Place> FilterPlaces(PlaceFilterInputModel input)
         {
             var query = this.context.Places
                 .Include(x => x.PlacePerks)
@@ -81,23 +100,16 @@ namespace ListIT.Services.Data.PlaceServices
             }
             if (input.Perks != null)
             {
-                if(input.Perks.Count > 0)
-                foreach (var item in input.Perks)
-                {
-                    query = query
-                        .Where(x => x.PlacePerks.Any(x => x.Perk.Name == item));
-                }
+                if (input.Perks.Count > 0)
+                    foreach (var item in input.Perks)
+                    {
+                        query = query
+                            .Where(x => x.PlacePerks.Any(x => x.Perk.Name == item));
+                    }
             }
 
-            var listing = await query
-                .Skip(input.Skip)
-                .Take(input.Take)
-                .To<PlaceListModel>()
-                .ToListAsync();
-
-            return listing;
+            return query;
         }
-
     }
 }
 

@@ -43,10 +43,7 @@ h1{
     color: white;
 }
 
-.nav-item:active{
-    background-color: #ff3a6d;
-    border-radius: 6px;
-}
+
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     background-color: #ff3a6d;
 }

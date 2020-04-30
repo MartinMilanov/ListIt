@@ -12,5 +12,6 @@ namespace ListIT.Services.Data.PlaceServices
         public Task<string> AddPlace(PlaceInputModel input);
         public Task<PlaceDetailViewModel> GetById(string id);
         public Task<ICollection<PlaceListModel>> GetPlaces(PlaceFilterInputModel input);
+        public int GetCount(PlaceFilterInputModel input);
     }
 }
