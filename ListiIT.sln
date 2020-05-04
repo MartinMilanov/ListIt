@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ListIT.Web", "ListiIT\ListIT.Web.csproj", "{9101BEF7-F334-4F47-8941-6E025C9A2774}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ListiIT.Web", "ListiIT\ListiIT.Web.csproj", "{9101BEF7-F334-4F47-8941-6E025C9A2774}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ListIT.Data", "ListIT.Data\ListIT.Data.csproj", "{A166EB77-E9D7-4F00-A578-AED7F38AB3E5}"
 EndProject
